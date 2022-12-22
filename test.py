@@ -17,14 +17,12 @@ handler = WebhookHandler(channel_secret)
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    signature = request.headers['X-Line-Signature']
-
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
     res = json.loads(body)
 
-    func.choice(res)
+    func.get_choice(res)
     return 'OK'
 
 

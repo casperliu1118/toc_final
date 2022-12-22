@@ -4,6 +4,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+import json
 channel_secret = "27b6044fca2f0f59f46001283189e291"
 channel_access_token = "0YptVYTNVQbhpRCezn9hCys1U1nLiQyW6WWAI79h0fUhnUPnFigeXKuSkCDGfwMqYEGkz0X3wz8lqtS3Hbcg2eGpm1GnUyjBHpgcMTCe0tcpDxk34PL9EMk8/5tKi/0QRej7A1Jv5JsjbNEwA1YlgAdB04t89/1O/w1cDnyilFU="
 
@@ -13,11 +14,15 @@ handler = WebhookHandler(channel_secret)
 #         TextSendMessage(res['events'][0]['message']['text'])
 #     )
 
-def choice(res):
-    # message ='請選擇：'+ '\n' 
-    # + '(1)選項一：chatGPT'+'\n'
-    # + '(2)選項二：我'
-    message = 'hello'
+def get_choice(res):
+    print(type(res['events'][0]['message']['text']))
+    mess = 'hello, please select'+'\n'+'1. chatGPT' +'\n'+'2. me'
     line_bot_api.reply_message(res['events'][0]['replyToken'], 
-        TextSendMessage(message)
+        TextSendMessage(mess)
+    )
+    body = request.get_data(as_text=True)
+    res = json.loads(body)
+    option = res['events'][0]['message']['text']
+    line_bot_api.reply_message(res['events'][0]['replyToken'], 
+        TextSendMessage('your choice would be'+ option)
     )
