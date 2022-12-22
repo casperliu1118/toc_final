@@ -15,22 +15,57 @@ channel_access_token = "0YptVYTNVQbhpRCezn9hCys1U1nLiQyW6WWAI79h0fUhnUPnFigeXKuS
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
-
+level =0
+state =99
+option=0
+res = 'hello'
 @app.route("/callback", methods=['POST'])
 def callback():
+    global level
+    global res
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
+    print('level = '+str(level))
     res = json.loads(body)
-    line_bot_api.reply_message(res['events'][0]['replyToken'], 
-        TextSendMessage(res['events'][0]['message']['text'])
-    )
+    if level ==0 or res['events'][0]['message']['text'] == 'q':
+        initial_state()
+
+    if(level ==1):
+        get_choice(res)
+    if(level >=1):
+        if(option ==1):
+            state1()
+        elif(option ==2):
+            state2()
+        elif(option == 3):
+            state3()
+        
+
+    level +=1
     return 'OK'
+def reply_mess(mes):
+    line_bot_api.reply_message(res['events'][0]['replyToken'], 
+        TextSendMessage(mes)
+    )
+def initial_state():
+    global level
+    level =0
+    mess = 'hello, please select'+'\n'+'1. chatGPT' +'\n'+'2. me'
+    reply_mess(mess)
 
-@handler.add(MessageEvent)
-def handle_message(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage('Test'))
+def get_choice(res):
+    global option 
 
+    option = int(res['events'][0]['message']['text'])
+    
+def state1():
+    reply_mess("state1")
+
+def state2():
+    reply_mess("state2")
+
+def state3():
+    reply_mess("state3")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
