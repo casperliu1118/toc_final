@@ -1,1 +1,2 @@
-print('hello world')
+from django.core.management import execute_from_command_line
+print('hello')

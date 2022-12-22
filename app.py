@@ -39,8 +39,8 @@ app = Flask(__name__, static_url_path="")
 
 
 # get channel_secret and channel_access_token from your environment variable
-channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
-channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
+channel_secret = "27b6044fca2f0f59f46001283189e291"
+channel_access_token = "0YptVYTNVQbhpRCezn9hCys1U1nLiQyW6WWAI79h0fUhnUPnFigeXKuSkCDGfwMqYEGkz0X3wz8lqtS3Hbcg2eGpm1GnUyjBHpgcMTCe0tcpDxk34PL9EMk8/5tKi/0QRej7A1Jv5JsjbNEwA1YlgAdB04t89/1O/w1cDnyilFU="
 if channel_secret is None:
     print("Specify LINE_CHANNEL_SECRET as environment variable.")
     sys.exit(1)
@@ -50,7 +50,7 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
-
+print(parser)
 
 @app.route("/callback", methods=["POST"])
 def callback():
@@ -59,11 +59,17 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
+    print("BBBody:")
+    print(body)
+    #print(signature)
     # parse webhook body
-    try:
-        events = parser.parse(body, signature)
-    except InvalidSignatureError:
-        abort(400)
+    #try:
+    events = parser.parse(body, signature)
+    print("EEEvents:")
+    print(events)
+    #except InvalidSignatureError:
+        #abort(400)
+        #print(body)
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
@@ -78,7 +84,7 @@ def callback():
 
     return "OK"
 
-
+""" 
 @app.route("/webhook", methods=["POST"])
 def webhook_handler():
     signature = request.headers["X-Line-Signature"]
@@ -87,10 +93,10 @@ def webhook_handler():
     app.logger.info(f"Request body: {body}")
 
     # parse webhook body
-    try:
-        events = parser.parse(body, signature)
-    except InvalidSignatureError:
-        abort(400)
+    #try:
+    events = parser.parse(body, signature)
+    #except InvalidSignatureError:
+     #   abort(400)
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
@@ -107,7 +113,7 @@ def webhook_handler():
             send_text_message(event.reply_token, "Not Entering any State")
 
     return "OK"
-
+"""
 
 @app.route("/show-fsm", methods=["GET"])
 def show_fsm():
