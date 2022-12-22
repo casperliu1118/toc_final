@@ -20,9 +20,3 @@ def get_choice(res):
     line_bot_api.reply_message(res['events'][0]['replyToken'], 
         TextSendMessage(mess)
     )
-    body = request.get_data(as_text=True)
-    res = json.loads(body)
-    option = res['events'][0]['message']['text']
-    line_bot_api.reply_message(res['events'][0]['replyToken'], 
-        TextSendMessage('your choice would be'+ option)
-    )
