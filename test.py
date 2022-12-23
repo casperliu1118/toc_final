@@ -102,13 +102,13 @@ def get_choice(res):
     
 def state1(mes):
     if(level ==1):
-        reply_mess("黑, i am your MENTOR\nWhat can I help you?")
+        reply_mess("黑, 幫你聯絡MENTOR\n他說：What can I help you?")
     #elif(level ==4):
     #    reply_mess("你對「" +mes + "」怎麼看？")
     else:
         response = chatgpt.chat(res['events'][0]['message']['text'])
 
-        reply_mess(response[2:])
+        reply_mess("他說："+response[2:])
 mirror =1
 pic_status =1
 def state2(url):
