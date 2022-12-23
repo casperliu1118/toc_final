@@ -92,7 +92,7 @@ def initial_state(name):
     #profile = line_bot_api.get_profile('<user_id>')
     #print(profile)
 
-    mess = '哈嘍'+name[1:]+', please select:'+'\n\n'+'1. 《人生導師》' +'\n'+'2. 《撿到照片》'+'\n'+'3. 《進入山洞》'+'\n'+'4. 《要吃什麼？》'
+    mess = '哈嘍'+name[1:]+', please select:'+'\n\n'+'1. 《人生導師》' +'\n'+'2. 《看帥哥》'+'\n'+'3. 《進入山洞》'+'\n'+'4. 《要吃什麼？》'
     reply_mess(mess)
 
 def get_choice(res):
@@ -115,7 +115,7 @@ def state2(url):
     place = "/static/IMG_9622.jpg"
     #reply_picture(ngrok_url+place)
     global mirror,pic_status
-    if('照鏡子'in res['events'][0]['message']['text']):
+    if('帥'in res['events'][0]['message']['text']):
         mirror =1
     elif('梗圖' in res['events'][0]['message']['text'] or 
     '別的' in res['events'][0]['message']['text']):
