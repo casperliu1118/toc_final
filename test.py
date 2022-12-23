@@ -38,19 +38,19 @@ def callback():
         # )
         # line_bot_api.reply_message(res['events'][0]['replyToken'], image_message)
     elif(level ==1):
-        # if(len(res['events'][0]['message']['text'])>1):
-        #     a =[]
-        #     for w in res['events'][0]['message']['text']:
-        #         if w in a:
-        #             reply_mess(w+"！")
-        #             break
-        #         else:
-        #             a.append(w)
-        #     # if(len(a)==len(res['events'][0]['message']['text'])):
-        #     #     initial_state(profile.display_name)
-        #     level =0
-        # else:
-        get_choice(res)
+        if(len(res['events'][0]['message']['text'])>1):
+            a =[]
+            for w in res['events'][0]['message']['text']:
+                if w in a:
+                    reply_mess(w+"！")
+                    break
+                else:
+                    a.append(w)
+            if(len(a)==len(res['events'][0]['message']['text'])):
+                initial_state(profile.display_name)
+            level =0
+        else:
+            get_choice(res)
     if(level >=1):
         if(option ==1):
             state1(profile.status_message)
@@ -148,3 +148,6 @@ def state4():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
+
+    # 啪嗒啪嗒改成語音合成
+    # 翻譯->爬蟲
