@@ -30,7 +30,7 @@ def callback():
     print('level = '+str(level))
     res = json.loads(body)
     profile = line_bot_api.get_profile(res['events'][0]['source']['userId'])
-    print(profile)
+    #print(profile)
     if level ==0 or res['events'][0]['message']['text'] == 'q':
         initial_state(profile.display_name)
         # image_message = ImageSendMessage(original_content_url='https://media.nownews.com/nn_media/thumbnail/2019/10/1570089924-27a9b9c9d7facd3422fe4610dd8ebe42-696x386.png',
@@ -38,19 +38,19 @@ def callback():
         # )
         # line_bot_api.reply_message(res['events'][0]['replyToken'], image_message)
     elif(level ==1):
-        if(len(res['events'][0]['message']['text'])>1):
-            a =[]
-            for w in res['events'][0]['message']['text']:
-                if w in a:
-                    reply_mess(w+"！")
-                    break
-                else:
-                    a.append(w)
-            if(len(a)==len(res['events'][0]['message']['text'])):
-                initial_state()
-            level =0
-        else:
-            get_choice(res)
+        # if(len(res['events'][0]['message']['text'])>1):
+        #     a =[]
+        #     for w in res['events'][0]['message']['text']:
+        #         if w in a:
+        #             reply_mess(w+"！")
+        #             break
+        #         else:
+        #             a.append(w)
+        #     # if(len(a)==len(res['events'][0]['message']['text'])):
+        #     #     initial_state(profile.display_name)
+        #     level =0
+        # else:
+        get_choice(res)
     if(level >=1):
         if(option ==1):
             state1(profile.status_message)
@@ -104,12 +104,35 @@ def state2(url):
     place = "/static/IMG_9622.jpg"
     #reply_picture(ngrok_url+place)
     reply_picture(url)
-
+depth =1
 def state3():
+    global depth
     if(level ==1):
         reply_mess("歡迎來到大山洞 洞洞洞...")
+        return
+    if(res['events'][0]['message']['text'] == "向前走"):
+        depth +=1
+        if depth >3:
+            depth =3
+            reply_mess("你撞到牆了\n"*depth)
+            return
+    elif(res['events'][0]['message']['text'] == "向後走"):
+        depth -=1
+        if depth<0:
+            depth =0
+    if(res['events'][0]['message']['text'] == "向前走" or res['events'][0]['message']['text'] == "向後走"):
+        if depth>0:
+            reply_mess("啪嗒 "*depth)
+        else :
+            reply_mess("從山洞出來了")
     else:
-        reply_mess(res['events'][0]['message']['text'][::-1])
+        echo_sound =""
+        if(depth ==0):
+            reply_mess("（沒回音）\n（為什麼要對空氣說話）")
+            return
+        for w in res['events'][0]['message']['text']:
+            echo_sound += w*depth
+        reply_mess(echo_sound[::-1])
 food = []
 def state4():
     global food
