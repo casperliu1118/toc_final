@@ -3,7 +3,7 @@ import openai
 import os
 
 # Authenticate with your OpenAI API key
-openai.api_key = "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"
+openai.api_key = os.environ.get("OPEN_API_KEY")
 
 def chat(question):
     # Create a chat context with an initial prompt

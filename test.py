@@ -5,14 +5,13 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
-import func
 import json
 import chatgpt
 import random
 app = Flask(__name__)
 
-channel_secret = "27b6044fca2f0f59f46001283189e291"
-channel_access_token = "0YptVYTNVQbhpRCezn9hCys1U1nLiQyW6WWAI79h0fUhnUPnFigeXKuSkCDGfwMqYEGkz0X3wz8lqtS3Hbcg2eGpm1GnUyjBHpgcMTCe0tcpDxk34PL9EMk8/5tKi/0QRej7A1Jv5JsjbNEwA1YlgAdB04t89/1O/w1cDnyilFU="
+channel_secret = os.environ.get('LINE_CHANNEL_SECRET')
+channel_access_token = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN')
 
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
