@@ -23,7 +23,7 @@ level =0
 state =99
 option=0
 res = 'hello'
-ngrok_url = "https://1df2-140-116-112-158.jp.ngrok.io"
+ngrok_url = "https://b56e-140-116-112-158.jp.ngrok.io"
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -37,6 +37,7 @@ def callback():
     #print(profile)
     if res['events'][0]['message']['text'] == 'FSM':
         reply_picture(ngrok_url+ "/static/FSM.jpg")
+        return 'OKfromFSM'
     elif level ==0 or res['events'][0]['message']['text'] == 'q':
         initial_state(profile.display_name)
         # image_message = ImageSendMessage(original_content_url='https://media.nownews.com/nn_media/thumbnail/2019/10/1570089924-27a9b9c9d7facd3422fe4610dd8ebe42-696x386.png',
