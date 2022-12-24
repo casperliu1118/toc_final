@@ -35,7 +35,9 @@ def callback():
     res = json.loads(body)
     profile = line_bot_api.get_profile(res['events'][0]['source']['userId'])
     #print(profile)
-    if level ==0 or res['events'][0]['message']['text'] == 'q':
+    if res['events'][0]['message']['text'] == 'FSM':
+        reply_picture(ngrok_url+ "/static/FSM.jpg")
+    elif level ==0 or res['events'][0]['message']['text'] == 'q':
         initial_state(profile.display_name)
         # image_message = ImageSendMessage(original_content_url='https://media.nownews.com/nn_media/thumbnail/2019/10/1570089924-27a9b9c9d7facd3422fe4610dd8ebe42-696x386.png',
         # preview_image_url='https://media.nownews.com/nn_media/thumbnail/2019/10/1570089924-27a9b9c9d7facd3422fe4610dd8ebe42-696x386.png'
